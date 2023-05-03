@@ -17,13 +17,17 @@ repo.index.add("*")
 repo.index.commit("Automatically committed by Commiter.py")
 
 # Add the remote repository
-origin = repo.remote(name='origin')
-if not origin.url:
-    origin.url = github_repo_url
+origin = None
+for remote in repo.remotes:
+    if remote.name == 'origin':
+        origin = remote
+        break
+if not origin:
+    origin = repo.create_remote('origin', github_repo_url)
 
-# Push the changes to the remote repository, overwriting any changes that are in the remote repository
+# Push the changes to the remote repository
 try:
-    origin.push(refspec="refs/heads/master:refs/heads/master", set_upstream=True, force=True)
+    origin.push(refspec="refs/heads/master:refs/heads/master", set_upstream=True)
     print("Changes pushed to remote repository")
 except git.exc.GitCommandError as e:
     print("Error:", e)
