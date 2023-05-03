@@ -27,7 +27,7 @@ if not origin:
 
 # Push the changes to the remote repository
 try:
-    origin.push(refspec="refs/heads/master:refs/heads/master", set_upstream=True)
+    origin.push(refspec="refs/heads/master:refs/heads/master", set_upstream=True, force = True)
     print("Changes pushed to remote repository")
 except git.exc.GitCommandError as e:
     print("Error:", e)
